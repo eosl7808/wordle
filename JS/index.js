@@ -15,6 +15,7 @@ function appStart() {
 
   const gameOver = () => {
     window.removeEventListener("keydown", handleKeyDown);
+    window.removeEventListener("click", handleClick);
     displayGameOver();
     clearInterval(timer);
   };
@@ -93,6 +94,26 @@ function appStart() {
       index++;
     }
   };
+
+  const handleClick = (e) => {
+    // console.log("클릭됨!", e);
+    const key = e.target.dataset.key;
+    // console.log("클릭키", key);
+    const thisBlock = document.querySelector(
+      `.board-block[data-index='${attempts}${index}']`
+    );
+    if (key === "BACK" || key === "Back") handleBackSpace();
+    else if (index === 5) {
+      if (key === "ENTER") handleEnterKey();
+      else return;
+    } else {
+      if (key === "ENTER") return;
+      else {
+        thisBlock.innerText = key;
+        index += 1;
+      }
+    }
+  };
   const startTimer = () => {
     const start = new Date();
 
@@ -109,6 +130,7 @@ function appStart() {
 
   startTimer();
   window.addEventListener("keydown", handleKeyDown);
+  window.addEventListener("click", handleClick);
 }
 
 appStart();
